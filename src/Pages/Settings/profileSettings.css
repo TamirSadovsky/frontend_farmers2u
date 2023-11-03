@@ -1,0 +1,35 @@
+.inputLabel{
+    display: block;
+    width: 100%;
+    margin-left: 1rem;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: rgb(23, 23, 91);
+    /* text-align: center; */
+}
+
+.Form_box_input{
+    width: 90%;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+}
+
+.lastHour{
+    padding-bottom: 1rem;
+}
+
+.Form_box_input::placeholder{
+    /* text-align: center; */
+    font-size: 1.2rem;
+    color: rgb(74, 66, 34);
+}
+
+.profileImg{
+    border-radius: 50%;
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+}
+
+

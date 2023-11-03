@@ -1,0 +1,162 @@
+@font-face {
+  font-family: 'Secular One';
+  font-style: normal;
+  font-weight: 4000;
+  font-size: '48px';
+  src: url(https://fonts.gstatic.com/s/secularone/v11/8QINdiTajsj_87rMuMdKyqDgOOhLLA.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+/* hebrew */
+@font-face {
+  font-family: 'Suez One';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/suezone/v11/taiJGmd_EZ6rqscQgOFMmouQ-A.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Secular One';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/secularone/v11/8QINdiTajsj_87rMuMdKyqDiOOg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* hebrew */
+@font-face {
+	font-family: 'aleph';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfpcuPLdshZhVB.woff2) format('woff2');
+	unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+  }
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#bg-video {
+  padding-top: 23px;
+  margin-top: -23px;
+  margin-bottom: -4px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+ .main {
+  width: 100%;
+  height: 100%;
+  
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center; 
+  color: white;
+}
+
+.subtitle {
+  position: absolute;
+  top: 100px;
+  right: 600px;
+  align-items: center;
+}
+
+.farmer {
+  position: absolute;
+  top: 300px;
+  right: 600px;
+  align-items: center;
+}
+
+.costumer {
+  position: absolute;
+  top: 500px;
+  right: 600px;
+  align-items: center;
+}
+
+.question {
+  position: absolute;
+  top: 200px;
+  align-items: center;
+}
+  .overlay {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  width: 100% !important;
+  height: 109vh !important;
+  overflow: hidden;
+  background-color: rgba(19, 33, 19, 0.4);
+  cursor: pointer;
+}  
+
+
+.headline {
+  position: absolute;
+  left: 250px;
+  right: 1000px;
+  bottom: 470px;
+  width: 100%;
+  cursor: pointer;
+}  
+
+.farmers2u {
+  position: absolute;
+  left: 0;
+  right: 400px;
+  bottom: 550px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.hero {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.newOverlay {
+  background-color: rgba(0,0,0,0.3);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0;
+  z-index: -1;
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: -2;
+}
+
+.hero .content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  padding: 1rem;
+  direction: rtl;
+}

@@ -1,0 +1,85 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  button{
+    background-color: black;
+    padding:20px;
+    border-radius: .5rem;
+    color:white;
+    border:none;
+    margin-bottom: 50px;
+  }
+  
+  /* button:hover{
+    border:2px solid white;
+  } */
+  
+  button i{
+    margin-right: 10px;
+  }
+
+  /* hebrew */
+@font-face {
+	font-family: 'aleph';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfpcuPLdshZhVB.woff2) format('woff2');
+	unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+  }
+
+  .fade-in {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(1em);
+    animation: fadeIn ease-out 0.5s forwards;
+
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(1em);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

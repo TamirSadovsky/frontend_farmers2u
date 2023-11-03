@@ -1,0 +1,143 @@
+/* hebrew */
+@font-face {
+  font-family: 'aleph';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfpcuPLdshZhVB.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+/* hebrew */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfpcuPLdshZhVB.woff2) format('woff2');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfp8uPLdshZg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
+
+* > * {
+    font-family: "Poppins", cursive;
+    margin: 0;
+}
+
+body{
+  background: #f7f1e5;  /* fallback for old browsers */
+ 
+}
+
+.App {
+  height: 110vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.register{
+  max-width: 978px;
+  width: 100vw;
+  display:flex;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  /* box-shadow: 1px 3px 10px #e9ecef; */
+  background-color: white;
+}
+
+.form-input {
+  margin-bottom: 0px;
+}
+
+input[type="text"] {
+  margin-right: 10px;
+}
+
+
+.register span{
+  color: #adb5bd;
+}
+
+#form{
+  max-width: 400px;
+  width: 120vw;
+  margin: 1.5em auto;
+}
+
+#form >  input, .btn{
+  border: 2px solid #02192f;
+  padding: .9em 1em;
+  direction: rtl;
+}
+
+#form > input:focus{
+  outline: none;
+}
+
+#form > .btn{
+  background-color: #424579;
+  color: #ece9ef;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.flex{
+  display: flex;
+  gap: 1em;
+  
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.register .col-1{
+  margin: auto;
+  padding: 3em 0;
+}
+
+.register .col-2 img{
+  width: 480px;
+  height: 100%;
+  object-fit: cover;
+  align-self: flex-end;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: none;
+}
+
+@media screen and (min-width: 860px)  {
+  .register .col-2 img{
+    display: initial;
+  }
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+.buttons-place {
+  display: flex;
+  gap: 1em;
+  margin-bottom: -5em;
+}
+
+
+
+
