@@ -420,13 +420,13 @@ const ProfileSettings = (props) => {
         if (productsFlag) {
           setProductsFlag(false);
 
-          if (productsImagesToDelete != 0){
+          if (productsImagesToDelete !== 0){
             // need to add check in the delete if it's an image that was added and than deleted 
             console.log("productsImagesToDelete", productsImagesToDelete)
             const imagesToDeleteString = `5@${productsImagesToDelete.join('@')}`;
             data_update.append("labels[]", imagesToDeleteString);
           }
-          if (productsImagesToAdd != 0){
+          if (productsImagesToAdd !== 0){
             let imagesIndexToAdd = ""
             for (let j = 0; j < productsImagesToAddIndex.length; j++){
               imagesIndexToAdd = `2@${productsImagesToAddIndex.join('@')}`;
@@ -444,12 +444,12 @@ const ProfileSettings = (props) => {
         if (farmFlag){
           setFarmFlag(false)
           console.log("FARMIMAGESTODELETE", farmImagesToDelete)
-          if (farmImagesToDelete != 0){
+          if (farmImagesToDelete !== 0){
             // need to add check in the delete if it's an image that was added and than deleted 
             const imagesToDeleteString = `6@${farmImagesToDelete.join('@')}`;
             data_update.append("labels[]", imagesToDeleteString);
           }
-          if (farmImagesToAdd != 0){
+          if (farmImagesToAdd !== 0){
             let imagesIndexToAdd = ""
             for (let j = 0; j < farmImagesToAddIndex.length; j++){
               imagesIndexToAdd = `3@${farmImagesToAddIndex[j]}`;
@@ -493,6 +493,7 @@ const ProfileSettings = (props) => {
         setDisabledLogo(disable);
     }
 
+    /*
     const checkValidNumberOfImages = (number, e) => {
       if (!filesNumberValidation(number)){
         alert("מותר להעלות עד 5 קבצים.");
@@ -501,6 +502,7 @@ const ProfileSettings = (props) => {
       }
 
     }
+    */
     const checkValidImage = (image, e) => {
       if (!fileMaxSize(image)){
         alert("גודל מקסימלי עבור קובץ הוא 5MB.");
