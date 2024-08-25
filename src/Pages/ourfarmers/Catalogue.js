@@ -32,7 +32,7 @@ const Catalogue = ({ List, token }) => {
         {List.length === 0 ?
         <>
         <Box sx={{display: 'flex', justifyContent: 'center'}}>
-          <img className='noResultsImage' src={"https://storage.googleapis.com/image_storage_farmers2u/noResults.png"} alt='no results' /> 
+          <img className='noResultsImage' src={"https://storage.googleapis.com/db_storage_farmers2u/noResults.png"} alt='no results' /> 
         </Box>
         <Typography sx={{ 
                       fontSize: '30px', color: '#1d3c45', display: 'flex', 

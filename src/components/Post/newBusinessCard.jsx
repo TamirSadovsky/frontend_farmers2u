@@ -126,14 +126,14 @@ export default function NewBusinessCard({ image, business, open, close, token })
                         {business.farm_images_list && business.farm_images_list.filter(image => image !== '').length > 0 &&
                         <div className='placeImages'>
                             <Typography variant='h6'>תמונות של המקום:</Typography>
-                            <Slider slides={business.farm_images_list} farm={true}/>
+                            <Slider initialSlides={business.farm_images_list} farm={true}/>
                         </div>
                         }
                         
                         {business.products_images_list && business.products_images_list.filter(image => image !== '').length > 0 &&
                         <div className='productsImages'>
                             <Typography variant= 'h6'>תמונות של המוצרים:</Typography>
-                            <Slider slides={business.products_images_list} farm={false} />
+                            <Slider initialSlides={business.products_images_list} farm={true} />
                         </div>
                         }
                         

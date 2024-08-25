@@ -7,7 +7,7 @@ import WorkingHours from '../../components/Settings/workingHours'
 import axios from 'axios'
 import PlacesAutocomplete from 'react-places-autocomplete';
 import {styled} from '@mui/material/styles'
-import Slider from '../../Pages/ShowFarmerProfile/ImageSlider'
+import Slider from '../ShowFarmerProfile/ImageSlider'
 import dayjs from 'dayjs'
 import UserPosts from './userPosts'
 import './userPosts.css'
@@ -149,8 +149,12 @@ const ProfileSettings = (props) => {
     const [productsFlag, setProductsFlag] = useState(false);
     const [farmFlag, setFarmFlag] = useState(false);
     const [newLogo, setNewlogo] = useState("");
-    const [newProductsImages, setNewProductsImages] = useState("");
-    const [newFarmImages, setNewFarmImages] = useState("");
+    const [productsImagesToDelete, setProductsImagesToDelete] = useState([]);
+    const [productsImagesToAdd, setProductsImagesToAdd] = useState([]);
+    const [productsImagesToAddIndex, setProductsImagesToAddIndex] = useState([]);
+    const [farmImagesToDelete, setFarmImagesToDelete] = useState([]);
+    const [farmImagesToAdd, setFarmImagesToAdd] = useState([]);
+    const [farmImagesToAddIndex, setFarmImagesToAddIndex] = useState([]);
     const [farmName, setFarmName] = useState("");
     const [email, setEmail] = useState("");
     const [about, setAbout] = useState("");
@@ -208,9 +212,6 @@ const ProfileSettings = (props) => {
     const [validSaturday, setValidSaturday] = useState(true);
 
     const [disabledLogo, setDisabledLogo] = useState(Array(2).fill(false)); //disable: [delete logo, replace logo]
-    const [disabledFarm, setDisabledFarm] = useState(Array(2).fill(false)); //disable:  [delete farm images, replace farm images]
-    const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
-
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
     const shipppingWithoutDist = isShipping && (shipping_distance === '0' || shipping_distance === "");
     const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone !== "" && !shipppingWithoutDist;
@@ -401,29 +402,66 @@ const ProfileSettings = (props) => {
           setLogoFlag(false)
           data_update.append("labels[]", "4");
         }
-        if (newProductsImages){
-          for (let i = 0; i < newProductsImages.length; i++) {
-            console.log(newProductsImages)
-            data_update.append("files[]", newProductsImages[i]);
+        alert(productsImagesToDelete)
+        /*
+        if (productsImagesToDelete){
+          for (let i = 0; i < productsImagesToDelete.length; i++) {
+            alert(productsImagesToDelete)
+            console.log("hereherehere")
+            alert("IM HERE DW")
+            console.log(productsImagesToDelete)
+            alert(productsImagesToDelete)
+            data_update.append("files[]", productsImagesToDelete[i]);
             data_update.append("labels[]", "2");
+            
           }
         }
-        if (productsFlag){
-          setProductsFlag(false)
-          data_update.append("labels[]", "5");
-        }
-        if (newFarmImages){
-          for (let i = 0; i < newFarmImages.length; i++) {
-            console.log(newFarmImages)
-            data_update.append("files[]", newFarmImages[i]);
-            data_update.append("labels[]", "3");
+        */
+        if (productsFlag) {
+          setProductsFlag(false);
+
+          if (productsImagesToDelete != 0){
+            // need to add check in the delete if it's an image that was added and than deleted 
+            console.log("productsImagesToDelete", productsImagesToDelete)
+            const imagesToDeleteString = `5@${productsImagesToDelete.join('@')}`;
+            data_update.append("labels[]", imagesToDeleteString);
           }
+          if (productsImagesToAdd != 0){
+            let imagesIndexToAdd = ""
+            for (let j = 0; j < productsImagesToAddIndex.length; j++){
+              imagesIndexToAdd = `2@${productsImagesToAddIndex.join('@')}`;
+              data_update.append("labels[]", imagesIndexToAdd);
+            }
+
+            for (let i = 0; i < productsImagesToAdd.length; i++) {
+                console.log(productsImagesToAdd)
+                data_update.append("files[]", productsImagesToAdd[i]);
+              }
+          }
+
         }
+
         if (farmFlag){
           setFarmFlag(false)
-          data_update.append("labels[]", "6");
+          console.log("FARMIMAGESTODELETE", farmImagesToDelete)
+          if (farmImagesToDelete != 0){
+            // need to add check in the delete if it's an image that was added and than deleted 
+            const imagesToDeleteString = `6@${farmImagesToDelete.join('@')}`;
+            data_update.append("labels[]", imagesToDeleteString);
+          }
+          if (farmImagesToAdd != 0){
+            let imagesIndexToAdd = ""
+            for (let j = 0; j < farmImagesToAddIndex.length; j++){
+              imagesIndexToAdd = `3@${farmImagesToAddIndex[j]}`;
+              data_update.append("labels[]", imagesIndexToAdd);
+            }
+            for (let i = 0; i < farmImagesToAdd.length; i++) {
+                console.log(farmImagesToAdd)
+                data_update.append("files[]", farmImagesToAdd[i]);
+              }
+          }
         }
-          
+
           axios.put(`https://farmers2u-backend.onrender.com/settings/${profileEmail}`, data_update, {
             headers: {
               Authorization: 'Bearer ' + props.token,
@@ -448,11 +486,37 @@ const ProfileSettings = (props) => {
 
     const handleDeletePhotoLogo = () => {
         setLogoFlag(true)
-        setLogo("https://storage.cloud.google.com/farmers2u_images/farmers2u_logo.png")
+        setLogo("https://storage.cloud.google.com/db_storage_farmers2u/farmers2u_logo.png")
         setNewlogo("")
         const disable = [...disabledLogo];
         disable[1] = true;
         setDisabledLogo(disable);
+    }
+
+    const checkValidNumberOfImages = (number, e) => {
+      if (!filesNumberValidation(number)){
+        alert("מותר להעלות עד 5 קבצים.");
+        e.target.value = null; 
+        return e;
+      }
+
+    }
+    const checkValidImage = (image, e) => {
+      if (!fileMaxSize(image)){
+        alert("גודל מקסימלי עבור קובץ הוא 5MB.");
+        return e;
+      }
+      if (!fileTypeValidation(image)) {
+        e.target.value = null; // Clear the input field
+        alert("מותר לצרף תמונות בפורמט PNG, JPEG או JPG בלבד.");
+        return e;
+      }
+      if (!fileSpecialChars(image)) {
+        alert("שם הקובץ מכיל תווים לא חוקיים.");
+        e.target.value = null; 
+        return e
+      }
+
     }
     const handleChangePhotoLogo = (e) => {
       let disable;
@@ -462,20 +526,7 @@ const ProfileSettings = (props) => {
         disable[0] = true;
         setDisabledLogo(disable);
         for (let i = 0; i < selectedPhotos.length; i++) {
-          if (!fileMaxSize(selectedPhotos[i])){
-            alert("גודל מקסימלי עבור קובץ הוא 5MB.");
-            return;
-          }
-          if (!fileTypeValidation(selectedPhotos[i])) {
-            e.target.value = null; // Clear the input field
-            alert("מותר לצרף תמונות בפורמט PNG, JPEG או JPG בלבד.");
-            return;
-          }
-          if (!fileSpecialChars(selectedPhotos[i])) {
-            alert("שם הקובץ מכיל תווים לא חוקיים.");
-            e.target.value = null; 
-            return
-          }
+          e = checkValidImage(selectedPhotos[i], e)
         }
         setNewlogo(selectedPhotos);
         setLogoFlag(false);
@@ -487,109 +538,115 @@ const ProfileSettings = (props) => {
         setDisabledLogo(disable);
       }
     };
-  const hadnleDeleteProductsPhotos = () => {
-      console.log("prodcuts flag" ,productsFlag)
-      setProductsFlag(true)
-      setProductsImages([])
-      setNewProductsImages([])
-      const disable = [...disabledProducts];
-      disable[1] = true;
-      setDisabledProducts(disable);
-  }
-    const handleChangeProductsImages = (e) => {
-      let disable;
-      console.log("e",e)
-        if (e.target.files.length > 0) {
-          disable = [...disabledProducts];
-          disable[0] = true;
-          setDisabledProducts(disable);
-          const selectedPhotos = e.target.files;
-          if (!filesNumberValidation(selectedPhotos.length)){
-            alert("מותר להעלות עד 5 קבצים.");
-            e.target.value = null; 
-            return;
-          }
-      
-          for (let i = 0; i < selectedPhotos.length; i++) {
-            if (!fileMaxSize(selectedPhotos[i])){
-              alert("גודל מקסימלי עבור קובץ הוא 5MB.");
-              return;
-            }
-            if (!fileTypeValidation(selectedPhotos[i])) {
-              alert("מותר לצרף תמונות בפורמט PNG, JPEG או JPG בלבד.");
-              e.target.value = null; 
-              return;
-            }
-            if (!fileSpecialChars(selectedPhotos[i])) {
-              alert("שם הקובץ מכיל תווים לא חוקיים.");
-              e.target.value = null; 
-              return
-            }
-          }
-      
-          // All selected photos are in the correct format, proceed with setting state
-          setNewProductsImages(selectedPhotos);
-          setProductsFlag(false);
-          console.log(selectedPhotos);
-        }
-        else {
-          disable = [...disabledProducts];
-          disable[0] = false;
-          setDisabledProducts(disable);
-        }
+
+    /*const handleAddImages = (newImages, clickIndex, farmOrProducts) => {
+      console.log("New Images")
+      console.log(newImages)
+      let indexImageListToAdd = []
+
+      if (farmOrProducts == "farm"){
+        setFarmImagesToAdd(newImages)
+        indexImageListToAdd[0] = "3"
+        indexImageListToAdd[1] = len(newImages)
+
+        setFarmImagesToAddIndex([
+          ...(farmImagesToAddIndex ?? []),
+          indexImageListToAdd
+        ]);
+      }
+      else if (farmOrProducts == "products"){
+        setProductsImagesToAdd(newImages)
+        indexImageListToAdd[0] = "2"
+        indexImageListToAdd[1] = len(newImages)
+
+        setProductsImagesToAddIndex()
+
+      }
+
+    }*/
+    const handleAddImages = (newImages, sliderKey, clickIndex, farmOrProducts, updatedSlides) => {
+      let imageToAdd = [];
+      let indexImageToAdd
+    
+      if (farmOrProducts === "farm") {
+        imageToAdd = [...farmImagesToAdd, ...newImages]; // Add the deleted image to the deletion list
+        indexImageToAdd = [...farmImagesToAddIndex, clickIndex]
+
+        setFarmImagesToAddIndex(indexImageToAdd)
+        setFarmImagesToAdd(imageToAdd)
+        setFarmFlag(true);
+
+        console.log(indexImageToAdd)
+        console.log(imageToAdd)
+
+       setFarmImages(updatedSlides)
+
+      } else if (farmOrProducts === "products") {
+        imageToAdd = [...productsImagesToAdd, ...newImages]; // Add the deleted image to the deletion list
+        indexImageToAdd = [...productsImagesToAddIndex, clickIndex]
+        console.log(indexImageToAdd)
+        console.log(imageToAdd)
+
+        setProductsImagesToAddIndex(indexImageToAdd)
+        setProductsImagesToAdd(imageToAdd)
+        setProductsFlag(true)
+
+
+        setProductsImages(updatedSlides)
+      }
     };
-    const handleDeleteFarmPhotos = () => {
-      console.log("farmIMages");
-      alert(farmImages)
-      setFarmFlag(true)
-      setFarmImages([])
-      setNewFarmImages([])
-      const disable = [...disabledFarm];
-      disable[1] = true;
-      setDisabledFarm(disable);
-  }
-    const handleChangeFarmImages = (e) => {
-        let disable;
-        if (e.target.files.length > 0) {
-          disable = [...disabledFarm];
-          disable[0] = true;
-          setDisabledFarm(disable);
-          const selectedPhotos = e.target.files;
-        if (!filesNumberValidation(selectedPhotos.length)){
-          alert("מותר להעלות עד 5 קבצים.");
-          e.target.value = null; // Clear the input field
-          return
-        }
-        
-      
-          for (let i = 0; i < selectedPhotos.length; i++) {
-            if (!fileMaxSize(selectedPhotos[i])){
-              alert("גודל מקסימלי עבור קובץ הוא 5MB.");
-              return;
-            }
-            if (!fileTypeValidation(selectedPhotos[i])) {
-              alert("מותר לצרף תמונות בפורמט PNG, JPEG או JPG בלבד.");
-              e.target.value = null; 
-              return;
-            }
-            if (!fileSpecialChars(selectedPhotos[i])) {
-              alert("שם הקובץ מכיל תווים לא חוקיים.");
-              e.target.value = null; 
-              return
-            }
+    
+    const handleDeleteImages = (indexToDelete, farmOrProducts) => {
+      let updatedImages = [];
+      let imageToDelete;
+      let imagesToDelete = [];
+  
+      if (farmOrProducts === "farm") {
+          updatedImages = farmImages.slice(); // Create a shallow copy of farmImages
+          imageToDelete = updatedImages.splice(indexToDelete, 1)[0]; // Remove and store the deleted image
+          setFarmImages(updatedImages); // Update state with the new array
+          imagesToDelete = [...farmImagesToDelete, imageToDelete]; // Add the deleted image to the deletion list
+          setFarmFlag(true);
+          setFarmImagesToDelete(imagesToDelete); // Update the images to delete
+  
+          if (farmImagesToAdd != null) {
+              // Update indices for images to be added
+              for (let i = 0; i < farmImagesToAddIndex.length; i++) {
+                  if (farmImagesToAddIndex[i] < indexToDelete) {
+                      // do nothing
+                  } else if (farmImagesToAddIndex[i] === indexToDelete) {
+                      farmImagesToAdd.splice(i, 1);
+                      farmImagesToAddIndex.splice(i, 1);
+                      i--; // Adjust loop index due to removal
+                  } else {
+                      farmImagesToAddIndex[i] -= 1;
+                  }
+              }
           }
-      
-          // All selected photos are in the correct format, proceed with setting state
-          setNewFarmImages(selectedPhotos);
-          setFarmFlag(false);
-          console.log(selectedPhotos);
-        }
-        else {
-          disable = [...disabledFarm];
-          disable[0] = false;
-          setDisabledFarm(disable);
-        }
-    };
+      } else if (farmOrProducts === "products") {
+          updatedImages = productsImages.slice(); // Create a shallow copy of productsImages
+          imageToDelete = updatedImages.splice(indexToDelete, 1)[0]; // Remove and store the deleted image
+          setProductsImages(updatedImages); // Update state with the new array
+          imagesToDelete = [...productsImagesToDelete, imageToDelete]; // Add the deleted image to the deletion list
+          setProductsFlag(true);
+          setProductsImagesToDelete(imagesToDelete); // Update the images to delete
+  
+          if (productsImagesToAdd != null) {
+              // Update indices for images to be added
+              for (let i = 0; i < productsImagesToAddIndex.length; i++) {
+                  if (productsImagesToAddIndex[i] < indexToDelete) {
+                      // do nothing
+                  } else if (productsImagesToAddIndex[i] === indexToDelete) {
+                      productsImagesToAdd.splice(i, 1);
+                      productsImagesToAddIndex.splice(i, 1);
+                      i--; // Adjust loop index due to removal
+                  } else {
+                      productsImagesToAddIndex[i] -= 1;
+                  }
+              }
+          }
+      }
+  };
 
     const fileTypeValidation = (file) => {
       if (
@@ -1154,40 +1211,9 @@ const ProfileSettings = (props) => {
                     <Typography  sx={{fontWeight: '600', fontSize: '30px',justifySelf: 'center', color: '#1d3c45'}}>תמונות המקום</Typography>
                     </Box>
                     <Box sx={{ minWidth: '580px', minHeight: '300px', marginBottom: '20px'}}>
-                      <Slider slides={farmImages} farm={true} />
+                      <Slider sliderKey="farmSlider" key="farmImages" initialSlides={farmImages} farm={false} handleDeleteImages={handleDeleteImages} handleAddImages={handleAddImages} farmOrProducts={"farm"}/>
                     </Box>
                     </Box>
-                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                        <div style={{textAlign: 'center'}}>
-                          <label className='inputLabel'>החלפת תמונות</label>
-                          <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
-                          alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
-                          <input
-                          type="file"
-                          label =""
-                          name="farm_images"
-                          multiple
-                          onChange={handleChangeFarmImages}
-                          disabled= {disabledFarm[1]}
-                          />
-                          </Box>
-                        </div>
-                          <Button
-                          disabled = {disabledFarm[0]}
-                          sx={{
-                            fontFamily: 'aleph',
-                            backgroundColor: '#E8AA42',
-                            color: 'black',
-                            marginTop: '5px',
-                            ':hover': {
-                              bgcolor: '#E8AA42',
-                              color: 'white',
-                            },
-                          }}
-                          onClick={handleDeleteFarmPhotos}>
-                          מחיקת התמונות הקיימות  
-                          </Button>
-                        </div>
                     <Box sx={{
                                 width: '580px',
                                 height: '300px',
@@ -1201,41 +1227,9 @@ const ProfileSettings = (props) => {
                         <Typography sx={{fontWeight: '600', fontSize: '30px',justifySelf: 'center', color: '#1d3c45'}}>תמונות מוצרי העסק</Typography>
                         </Box>
                         <Box sx={{ minWidth: '580px', minHeight: '300px'}}>
-                          <Slider slides={productsImages} farm={false} />
+                          <Slider sliderKey="productsSlider" key="productsImages" initialSlides={productsImages} farm={false} handleDeleteImages={handleDeleteImages} handleAddImages={handleAddImages} farmOrProducts={"products"} />
                         </Box>
                     </Box>
-                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                        <div style={{textAlign: 'center'}}>
-                          <label className='inputLabel'>החלפת תמונות</label>
-                          <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
-                          alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
-                          <input
-                            type="file"
-                            label =""
-                            name="product_images"
-                            multiple
-                            onChange={handleChangeProductsImages}
-                            disabled= {disabledProducts[1]}
-                          />
-                          </Box>
-                        </div>
-                        <Button
-                        disabled = {disabledProducts[0]}
-                          sx={{
-                            fontFamily: 'aleph',
-                            backgroundColor: '#E8AA42',
-                            color: 'black',
-                            marginTop: '5px',
-                            ':hover': {
-                              bgcolor: '#E8AA42',
-                              color: 'white',
-                            },
-                          }}
-                          onClick={hadnleDeleteProductsPhotos}
-                        >
-                      מחיקת התמונות הקיימות  
-                    </Button>
-                        </div>
                     <Box sx={{
                                 width: '580px',
                                 height: '380px',
