@@ -65,7 +65,7 @@ const FormLogin = (props) => {
   const initializeGoogleSignIn = () => {
     if (typeof window.google !== 'undefined' && typeof window.google.accounts !== 'undefined') {
       window.google.accounts.id.initialize({
-        client_id: '396819999377-n5p4a1t8qnv0d57jr1meh6tu1hfa14bt.apps.googleusercontent.com',
+        client_id: '680549546132-otkla53o4j4sp9uavffgpi480lm4rcim.apps.googleusercontent.com',
         callback: handleCallbackResponse
       });
 
