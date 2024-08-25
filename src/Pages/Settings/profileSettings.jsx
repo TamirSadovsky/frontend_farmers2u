@@ -660,6 +660,7 @@ const ProfileSettings = (props) => {
       }
       return true;
     };
+  /*
     const filesNumberValidation = (numberOfImagesToUpload) => {
       const MAX_FILES = 5;
       if (numberOfImagesToUpload > MAX_FILES) {
@@ -667,6 +668,7 @@ const ProfileSettings = (props) => {
       }
       return true
     }
+  */
     const fileMaxSize = (file) => {
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
     if (file.size > MAX_FILE_SIZE) {
