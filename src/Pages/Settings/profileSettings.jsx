@@ -402,21 +402,7 @@ const ProfileSettings = (props) => {
           setLogoFlag(false)
           data_update.append("labels[]", "4");
         }
-        alert(productsImagesToDelete)
-        /*
-        if (productsImagesToDelete){
-          for (let i = 0; i < productsImagesToDelete.length; i++) {
-            alert(productsImagesToDelete)
-            console.log("hereherehere")
-            alert("IM HERE DW")
-            console.log(productsImagesToDelete)
-            alert(productsImagesToDelete)
-            data_update.append("files[]", productsImagesToDelete[i]);
-            data_update.append("labels[]", "2");
-            
-          }
-        }
-        */
+
         if (productsFlag) {
           setProductsFlag(false);
 
